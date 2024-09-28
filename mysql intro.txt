@@ -280,3 +280,380 @@ mysql> select *  from employees order by sal ;
 
 mysql> 
 
+—————————————————
+Last login: Sat Sep 28 16:43:55 on ttys000
+sahilkumar@SAHILs-MacBook-Air ~ % mysql -u root -p 
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 9.0.1 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| CompanyDb          |
+| dataDemo           |
+| demo1              |
+| demoDb             |
+| demoDb1            |
+| ess                |
+| ess_institute      |
+| HospitalDb         |
+| information_schema |
+| ITemployee         |
+| my_ess             |
+| mycompany          |
+| mycompany1         |
+| myDb               |
+| mysql              |
+| performance_schema |
+| restaurant         |
+| rockstar           |
+| rohan_db           |
+| rohandb            |
+| school             |
+| schooldb           |
+| sys                |
+| tr_Demo            |
++--------------------+
+25 rows in set (0.00 sec)
+
+mysql> use ess_institute;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> desc employees;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| id    | int  | NO   | PRI | NULL    |       |
+| name  | text | YES  |     | NULL    |       |
+| doj   | date | YES  |     | NULL    |       |
+| dept  | text | YES  |     | NULL    |       |
+| sal   | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select id,name from employees;
++-----+---------+
+| id  | name    |
++-----+---------+
+| 101 | Rahul   |
+| 102 | Ravi    |
+| 103 | Neha    |
+| 104 | Prakash |
+| 105 | Amit    |
++-----+---------+
+5 rows in set (0.00 sec)
+
+mysql> Select* from employees where id = 101;
++-----+-------+------------+------+-------+
+| id  | name  | doj        | dept | sal   |
++-----+-------+------------+------+-------+
+| 101 | Rahul | 2020-05-05 | IT   | 86000 |
++-----+-------+------------+------+-------+
+1 row in set (0.00 sec)
+
+mysql> select* from employees where id =(101,105);
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> select* from employees where id in (101,105);
++-----+-------+------------+-------+--------+
+| id  | name  | doj        | dept  | sal    |
++-----+-------+------------+-------+--------+
+| 101 | Rahul | 2020-05-05 | IT    |  86000 |
+| 105 | Amit  | 2015-10-05 | admin | 126000 |
++-----+-------+------------+-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select* from employees where id between 101 and 105;
++-----+---------+------------+----------+--------+
+| id  | name    | doj        | dept     | sal    |
++-----+---------+------------+----------+--------+
+| 101 | Rahul   | 2020-05-05 | IT       |  86000 |
+| 102 | Ravi    | 2021-08-11 | IT       |  16000 |
+| 103 | Neha    | 2021-12-11 | HR       |  96000 |
+| 104 | Prakash | 2018-12-11 | Security |  26000 |
+| 105 | Amit    | 2015-10-05 | admin    | 126000 |
++-----+---------+------------+----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select* from employees where id between 101 and 104 and dept = "IT";
++-----+-------+------------+------+-------+
+| id  | name  | doj        | dept | sal   |
++-----+-------+------------+------+-------+
+| 101 | Rahul | 2020-05-05 | IT   | 86000 |
+| 102 | Ravi  | 2021-08-11 | IT   | 16000 |
++-----+-------+------------+------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select count(id) from employees;
++-----------+
+| count(id) |
++-----------+
+|         5 |
++-----------+
+1 row in set (0.01 sec)
+
+mysql> select min(salary),max(salary),avg(salary) from employees;
+ERROR 1054 (42S22): Unknown column 'salary' in 'field list'
+mysql> 
+mysql> select min(sal),max(sal),avg(sal) from employees;
++----------+----------+------------+
+| min(sal) | max(sal) | avg(sal)   |
++----------+----------+------------+
+|    16000 |   126000 | 70000.0000 |
++----------+----------+------------+
+1 row in set (0.01 sec)
+
+mysql> select min(sal) as "minimum salary " ,max(sal) as "maximum salary" ,avg(sal) as "average salary" from employees;
++-----------------+----------------+----------------+
+| minimum salary  | maximum salary | average salary |
++-----------------+----------------+----------------+
+|           16000 |         126000 |     70000.0000 |
++-----------------+----------------+----------------+
+1 row in set (0.00 sec)
+
+mysql> select * from employees;
++-----+---------+------------+----------+--------+
+| id  | name    | doj        | dept     | sal    |
++-----+---------+------------+----------+--------+
+| 101 | Rahul   | 2020-05-05 | IT       |  86000 |
+| 102 | Ravi    | 2021-08-11 | IT       |  16000 |
+| 103 | Neha    | 2021-12-11 | HR       |  96000 |
+| 104 | Prakash | 2018-12-11 | Security |  26000 |
+| 105 | Amit    | 2015-10-05 | admin    | 126000 |
++-----+---------+------------+----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> alter table employees add column contact date;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employees;
++-----+---------+------------+----------+--------+---------+
+| id  | name    | doj        | dept     | sal    | contact |
++-----+---------+------------+----------+--------+---------+
+| 101 | Rahul   | 2020-05-05 | IT       |  86000 | NULL    |
+| 102 | Ravi    | 2021-08-11 | IT       |  16000 | NULL    |
+| 103 | Neha    | 2021-12-11 | HR       |  96000 | NULL    |
+| 104 | Prakash | 2018-12-11 | Security |  26000 | NULL    |
+| 105 | Amit    | 2015-10-05 | admin    | 126000 | NULL    |
++-----+---------+------------+----------+--------+---------+
+5 rows in set (0.00 sec)
+
+mysql> desc employees;
++---------+------+------+-----+---------+-------+
+| Field   | Type | Null | Key | Default | Extra |
++---------+------+------+-----+---------+-------+
+| id      | int  | NO   | PRI | NULL    |       |
+| name    | text | YES  |     | NULL    |       |
+| doj     | date | YES  |     | NULL    |       |
+| dept    | text | YES  |     | NULL    |       |
+| sal     | int  | YES  |     | NULL    |       |
+| contact | date | YES  |     | NULL    |       |
++---------+------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table employees modify  column contact date;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employees;
++---------+------+------+-----+---------+-------+
+| Field   | Type | Null | Key | Default | Extra |
++---------+------+------+-----+---------+-------+
+| id      | int  | NO   | PRI | NULL    |       |
+| name    | text | YES  |     | NULL    |       |
+| doj     | date | YES  |     | NULL    |       |
+| dept    | text | YES  |     | NULL    |       |
+| sal     | int  | YES  |     | NULL    |       |
+| contact | date | YES  |     | NULL    |       |
++---------+------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table employees modify  column contact text;
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> desc employees;
++---------+------+------+-----+---------+-------+
+| Field   | Type | Null | Key | Default | Extra |
++---------+------+------+-----+---------+-------+
+| id      | int  | NO   | PRI | NULL    |       |
+| name    | text | YES  |     | NULL    |       |
+| doj     | date | YES  |     | NULL    |       |
+| dept    | text | YES  |     | NULL    |       |
+| sal     | int  | YES  |     | NULL    |       |
+| contact | text | YES  |     | NULL    |       |
++---------+------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> desc employees;
++---------+------+------+-----+---------+-------+
+| Field   | Type | Null | Key | Default | Extra |
++---------+------+------+-----+---------+-------+
+| id      | int  | NO   | PRI | NULL    |       |
+| name    | text | YES  |     | NULL    |       |
+| doj     | date | YES  |     | NULL    |       |
+| dept    | text | YES  |     | NULL    |       |
+| sal     | int  | YES  |     | NULL    |       |
+| contact | text | YES  |     | NULL    |       |
++---------+------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table employees drop  column contact;
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employees;
++-----+---------+------------+----------+--------+
+| id  | name    | doj        | dept     | sal    |
++-----+---------+------------+----------+--------+
+| 101 | Rahul   | 2020-05-05 | IT       |  86000 |
+| 102 | Ravi    | 2021-08-11 | IT       |  16000 |
+| 103 | Neha    | 2021-12-11 | HR       |  96000 |
+| 104 | Prakash | 2018-12-11 | Security |  26000 |
+| 105 | Amit    | 2015-10-05 | admin    | 126000 |
++-----+---------+------------+----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update employees set sal = sal+sal*0.10 ;
+Query OK, 5 rows affected (0.01 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from employees;
++-----+---------+------------+----------+--------+
+| id  | name    | doj        | dept     | sal    |
++-----+---------+------------+----------+--------+
+| 101 | Rahul   | 2020-05-05 | IT       |  94600 |
+| 102 | Ravi    | 2021-08-11 | IT       |  17600 |
+| 103 | Neha    | 2021-12-11 | HR       | 105600 |
+| 104 | Prakash | 2018-12-11 | Security |  28600 |
+| 105 | Amit    | 2015-10-05 | admin    | 138600 |
++-----+---------+------------+----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select id , name , dept , sal ,sal*0.10 as "Bonus",sal+sal*0.10 as "New Salary"  from employees;
++-----+---------+----------+--------+----------+------------+
+| id  | name    | dept     | sal    | Bonus    | New Salary |
++-----+---------+----------+--------+----------+------------+
+| 101 | Rahul   | IT       |  94600 |  9460.00 |  104060.00 |
+| 102 | Ravi    | IT       |  17600 |  1760.00 |   19360.00 |
+| 103 | Neha    | HR       | 105600 | 10560.00 |  116160.00 |
+| 104 | Prakash | Security |  28600 |  2860.00 |   31460.00 |
+| 105 | Amit    | admin    | 138600 | 13860.00 |  152460.00 |
++-----+---------+----------+--------+----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> delete from employees where id = 103;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from employees;
++-----+---------+------------+----------+--------+
+| id  | name    | doj        | dept     | sal    |
++-----+---------+------------+----------+--------+
+| 101 | Rahul   | 2020-05-05 | IT       |  94600 |
+| 102 | Ravi    | 2021-08-11 | IT       |  17600 |
+| 104 | Prakash | 2018-12-11 | Security |  28600 |
+| 105 | Amit    | 2015-10-05 | admin    | 138600 |
++-----+---------+------------+----------+--------+
+4 rows in set (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| CompanyDb          |
+| dataDemo           |
+| demo1              |
+| demoDb             |
+| demoDb1            |
+| ess                |
+| ess_institute      |
+| HospitalDb         |
+| information_schema |
+| ITemployee         |
+| my_ess             |
+| mycompany          |
+| mycompany1         |
+| myDb               |
+| mysql              |
+| performance_schema |
+| restaurant         |
+| rockstar           |
+| rohan_db           |
+| rohandb            |
+| school             |
+| schooldb           |
+| sys                |
+| tr_Demo            |
++--------------------+
+25 rows in set (0.00 sec)
+
+mysql> drop database schooldb;
+Query OK, 2 rows affected (0.02 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| CompanyDb          |
+| dataDemo           |
+| demo1              |
+| demoDb             |
+| demoDb1            |
+| ess                |
+| ess_institute      |
+| HospitalDb         |
+| information_schema |
+| ITemployee         |
+| my_ess             |
+| mycompany          |
+| mycompany1         |
+| myDb               |
+| mysql              |
+| performance_schema |
+| restaurant         |
+| rockstar           |
+| rohan_db           |
+| rohandb            |
+| school             |
+| sys                |
+| tr_Demo            |
++--------------------+
+24 rows in set (0.00 sec)
+
+mysql> use ess;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++---------------+
+| Tables_in_ess |
++---------------+
+| students      |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> drop table students;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
+Empty set (0.00 sec)
+
+mysql> use ess;
+
