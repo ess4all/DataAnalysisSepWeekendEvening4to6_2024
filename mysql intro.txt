@@ -1,0 +1,282 @@
+MYSQL - SQL(Structured Query Language) - DBMS
+
+Types of Statements
+1.DDL - Data Definition Language
+Create , alter, drop
+2.DML - Data Manipulation Language
+Insert , update and delete
+3.DCL - Data Control 
+select
+4.TCL - Transaction Control Language
+Commit , rollback & savepoint
+
+Data Types
+1.int 
+2.decimal
+3.char (fixed length char)— name char(100)
+4.varchar - name varchar(100)
+5.text  - name text
+6.Boolean - True/False
+7.Date  - YYYY-MM-DD
+8.TIME H:M:S
+9.TIMESTAMP - DATE+TIME
+
+
+
+Last login: Thu Sep 26 16:17:53 on console
+sahilkumar@SAHILs-MacBook-Air ~ % mysql -u root -p                            
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 9.0.1 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| CompanyDb          |
+| dataDemo           |
+| demo1              |
+| demoDb             |
+| demoDb1            |
+| ess                |
+| HospitalDb         |
+| information_schema |
+| ITemployee         |
+| my_ess             |
+| mycompany          |
+| mycompany1         |
+| myDb               |
+| mysql              |
+| performance_schema |
+| restaurant         |
+| rohan_db           |
+| rohandb            |
+| school             |
+| schooldb           |
+| sys                |
+| tr_Demo            |
++--------------------+
+23 rows in set (0.06 sec)
+
+mysql> create database ess_institute;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| CompanyDb          |
+| dataDemo           |
+| demo1              |
+| demoDb             |
+| demoDb1            |
+| ess                |
+| ess_institute      |
+| HospitalDb         |
+| information_schema |
+| ITemployee         |
+| my_ess             |
+| mycompany          |
+| mycompany1         |
+| myDb               |
+| mysql              |
+| performance_schema |
+| restaurant         |
+| rohan_db           |
+| rohandb            |
+| school             |
+| schooldb           |
+| sys                |
+| tr_Demo            |
++--------------------+
+24 rows in set (0.00 sec)
+
+mysql> use ess_institute;
+Database changed
+mysql> create table employees (id int primary key ,name text,doj date ,dept,sal int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',sal int)' at line 1
+mysql> 
+mysql> create table employees (id int primary key ,name text,doj date ,dept text,sal int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc employees;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| id    | int  | NO   | PRI | NULL    |       |
+| name  | text | YES  |     | NULL    |       |
+| doj   | date | YES  |     | NULL    |       |
+| dept  | text | YES  |     | NULL    |       |
+| sal   | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+5 rows in set (0.03 sec)
+
+mysql> describe employees;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| id    | int  | NO   | PRI | NULL    |       |
+| name  | text | YES  |     | NULL    |       |
+| doj   | date | YES  |     | NULL    |       |
+| dept  | text | YES  |     | NULL    |       |
+| sal   | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into employees values
+    -> (101,"Rahul","2020-05-05","IT",86000),
+    -> (102,"Ravi","2021-08-11","IT",16000),
+    -> (103,"Neha","2021-12-11","HR",96000),
+    -> (104,"Prakash","2018-12-11","Security",26000),
+    -> (105,"Amit","2015-10-05","admin",126000);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select id,name from employees;
++-----+---------+
+| id  | name    |
++-----+---------+
+| 101 | Rahul   |
+| 102 | Ravi    |
+| 103 | Neha    |
+| 104 | Prakash |
+| 105 | Amit    |
++-----+---------+
+5 rows in set (0.00 sec)
+
+mysql> select *  from employees;
++-----+---------+------------+----------+--------+
+| id  | name    | doj        | dept     | sal    |
++-----+---------+------------+----------+--------+
+| 101 | Rahul   | 2020-05-05 | IT       |  86000 |
+| 102 | Ravi    | 2021-08-11 | IT       |  16000 |
+| 103 | Neha    | 2021-12-11 | HR       |  96000 |
+| 104 | Prakash | 2018-12-11 | Security |  26000 |
+| 105 | Amit    | 2015-10-05 | admin    | 126000 |
++-----+---------+------------+----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select *  from employees where id=101;
++-----+-------+------------+------+-------+
+| id  | name  | doj        | dept | sal   |
++-----+-------+------------+------+-------+
+| 101 | Rahul | 2020-05-05 | IT   | 86000 |
++-----+-------+------------+------+-------+
+1 row in set (0.00 sec)
+
+mysql> select *  from employees where id in (101,104);
++-----+---------+------------+----------+-------+
+| id  | name    | doj        | dept     | sal   |
++-----+---------+------------+----------+-------+
+| 101 | Rahul   | 2020-05-05 | IT       | 86000 |
+| 104 | Prakash | 2018-12-11 | Security | 26000 |
++-----+---------+------------+----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select *  from employees where id between 101 and 105;
++-----+---------+------------+----------+--------+
+| id  | name    | doj        | dept     | sal    |
++-----+---------+------------+----------+--------+
+| 101 | Rahul   | 2020-05-05 | IT       |  86000 |
+| 102 | Ravi    | 2021-08-11 | IT       |  16000 |
+| 103 | Neha    | 2021-12-11 | HR       |  96000 |
+| 104 | Prakash | 2018-12-11 | Security |  26000 |
+| 105 | Amit    | 2015-10-05 | admin    | 126000 |
++-----+---------+------------+----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select *  from employees where id between 101 and 103;
++-----+-------+------------+------+-------+
+| id  | name  | doj        | dept | sal   |
++-----+-------+------------+------+-------+
+| 101 | Rahul | 2020-05-05 | IT   | 86000 |
+| 102 | Ravi  | 2021-08-11 | IT   | 16000 |
+| 103 | Neha  | 2021-12-11 | HR   | 96000 |
++-----+-------+------------+------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select *  from employees where name like "A%";
++-----+------+------------+-------+--------+
+| id  | name | doj        | dept  | sal    |
++-----+------+------------+-------+--------+
+| 105 | Amit | 2015-10-05 | admin | 126000 |
++-----+------+------------+-------+--------+
+1 row in set (0.01 sec)
+
+mysql> select *  from employees where name like "%A";
++-----+------+------------+------+-------+
+| id  | name | doj        | dept | sal   |
++-----+------+------------+------+-------+
+| 103 | Neha | 2021-12-11 | HR   | 96000 |
++-----+------+------------+------+-------+
+1 row in set (0.00 sec)
+
+mysql> select *  from employees where name like "%A%";
++-----+---------+------------+----------+--------+
+| id  | name    | doj        | dept     | sal    |
++-----+---------+------------+----------+--------+
+| 101 | Rahul   | 2020-05-05 | IT       |  86000 |
+| 102 | Ravi    | 2021-08-11 | IT       |  16000 |
+| 103 | Neha    | 2021-12-11 | HR       |  96000 |
+| 104 | Prakash | 2018-12-11 | Security |  26000 |
+| 105 | Amit    | 2015-10-05 | admin    | 126000 |
++-----+---------+------------+----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select *  from employees where name like "__a%";
++-----+---------+------------+----------+-------+
+| id  | name    | doj        | dept     | sal   |
++-----+---------+------------+----------+-------+
+| 104 | Prakash | 2018-12-11 | Security | 26000 |
++-----+---------+------------+----------+-------+
+1 row in set (0.00 sec)
+
+mysql> select *  from employees;
++-----+---------+------------+----------+--------+
+| id  | name    | doj        | dept     | sal    |
++-----+---------+------------+----------+--------+
+| 101 | Rahul   | 2020-05-05 | IT       |  86000 |
+| 102 | Ravi    | 2021-08-11 | IT       |  16000 |
+| 103 | Neha    | 2021-12-11 | HR       |  96000 |
+| 104 | Prakash | 2018-12-11 | Security |  26000 |
+| 105 | Amit    | 2015-10-05 | admin    | 126000 |
++-----+---------+------------+----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select *  from employees order by sal desc ;
++-----+---------+------------+----------+--------+
+| id  | name    | doj        | dept     | sal    |
++-----+---------+------------+----------+--------+
+| 105 | Amit    | 2015-10-05 | admin    | 126000 |
+| 103 | Neha    | 2021-12-11 | HR       |  96000 |
+| 101 | Rahul   | 2020-05-05 | IT       |  86000 |
+| 104 | Prakash | 2018-12-11 | Security |  26000 |
+| 102 | Ravi    | 2021-08-11 | IT       |  16000 |
++-----+---------+------------+----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select *  from employees order by sal ;
++-----+---------+------------+----------+--------+
+| id  | name    | doj        | dept     | sal    |
++-----+---------+------------+----------+--------+
+| 102 | Ravi    | 2021-08-11 | IT       |  16000 |
+| 104 | Prakash | 2018-12-11 | Security |  26000 |
+| 101 | Rahul   | 2020-05-05 | IT       |  86000 |
+| 103 | Neha    | 2021-12-11 | HR       |  96000 |
+| 105 | Amit    | 2015-10-05 | admin    | 126000 |
++-----+---------+------------+----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> 
+
